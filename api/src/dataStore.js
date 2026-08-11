@@ -1,24 +1,18 @@
-const fs = require('fs');       // módulo nativo do Node para ler arquivos
-const path = require('path');   // módulo nativo para montar caminhos de arquivo
+const fs = require('fs');  
+const path = require('path');
 
-// --- Leitura única, na inicialização (Decisão 1) ---
-// path.join monta o caminho de forma segura em qualquer sistema operacional.
-// __dirname é a pasta onde ESTE arquivo está (api/src), então subimos um nível
-// com '..' para chegar em api/ e entrar em data/movies.json.
+// --- Leitura única, na inicialização  ---
 const rawPath = path.join(__dirname, '..', 'data', 'movies.json');
 const raw = JSON.parse(fs.readFileSync(rawPath, 'utf-8'));
-// readFileSync lê o arquivo como texto; JSON.parse transforma o texto em
-// objeto/array JavaScript. "Sync" (síncrono) é aceitável aqui porque roda
-// só uma vez, na largada, antes de o servidor aceitar requisições.
 
-// --- Normalização: 1 filme bruto -> formato do contrato (Decisões 2 e 3) ---
+// --- Normalização: 1 filme bruto ------
 function normalize(movie) {
   return {
-    id: movie.id,
-    title: movie.title,
-    description: movie.description,
-    banner: movie.banner,
-    cover: movie.cover,
+    id: movie.id ?? null,
+    title: movie.title ?? null,
+    description: movie.description ?? null,
+    banner: movie.banner ?? null,
+    cover: movie.cover ?? null,
     hls: movie.trailer ?? null,  // trailer -> hls;
     year: movie.year ?? null,
     duration: movie.video_duration ?? null,
@@ -27,17 +21,16 @@ function normalize(movie) {
   };
 }
 
-// --- Estrutura 1: categorias para o carrossel (Decisão 4) ---
-// Preserva o agrupamento em fileiras, mas com cada filme já normalizado.
+// --- Estrutura 1: categorias para o carrossel ---
 const categories = raw.map((cat) => ({
-  cat_id: cat.cat_id,
-  cat_label: cat.cat_label,
-  order: cat.order,
+  cat_id: cat.cat_id ?? null,
+  cat_label: cat.cat_label ?? null,
+  order: cat.order ?? null,
   content: cat.content.map(normalize),
 }));
 
-// --- Estrutura 2: índice por id para o detalhe (Decisão 4) ---
-// O Map dá busca O(1). Ids repetidos se sobrescrevem => deduplicação de graça.
+// --- Estrutura 2: índice por id para o detalhe ---
+// Map trata registros repetidos e otimiza busca
 const byId = new Map();
 for (const cat of raw) {
   for (const movie of cat.content) {
@@ -45,11 +38,10 @@ for (const cat of raw) {
   }
 }
 
-// Log de diagnóstico: confirma na subida quantos itens carregaram.
+// Log de diagnóstico
 console.log(`[dataStore] ${categories.length} categorias, ${byId.size} filmes unicos carregados`);
 
 // --- Interface pública do módulo ---
-// O resto do sistema só enxerga estas duas funções; a "bagunça" fica encapsulada aqui.
 function getCategories() { return categories; }
 function getMovieById(id) { return byId.get(id) ?? null; }
 
