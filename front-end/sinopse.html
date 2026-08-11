@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sinopse - NXPlay</title>
+  <link rel="icon" href="assets/logo.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+</head>
+
+<body>
+  <div class="synopsis__backdrop" id="backdrop"></div>
+  <div class="synopsis__scrim"></div>
+
+  <a class="back" href="index.html" aria-label="Voltar para a pagina inicial">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+  </a>
+
+  <main class="synopsis">
+    <div class="synopsis__content" id="content">
+      <h1 class="synopsis__title" id="title">Carregando...</h1>
+      <div class="synopsis__meta" id="meta" hidden></div>
+      <p class="synopsis__description" id="description"></p>
+      <a class="btn-watch" id="watch" href="#" hidden>
+        Assistir
+      </a>
+      <p class="synopsis__note" id="note" hidden></p>
+    </div>
+  </main>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/sinopse.js" defer></script>
+</body>
+
+</html>

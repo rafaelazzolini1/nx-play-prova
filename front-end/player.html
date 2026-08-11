@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Player - NXPlay</title>
+  <link rel="icon" href="assets/logo.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <header class="player-bar">
+    <a href="javascript:history.back()" class="icon-btn" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"  
+        stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </a>
+    <span class="player-bar__title" id="title"></span>
+  </header>
+
+  <main class="player-wrap">
+    <video id="video" controls autoplay playsinline></video>
+  </main>
+
+  <script src="js/config.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/ws.js" defer></script>
+  <script src="js/player.js" defer></script>
+</body>
